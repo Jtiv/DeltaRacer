@@ -23,6 +23,16 @@ public class GravField : MonoBehaviour
         //_gravModifier = 90f;
     }
 
+    /*
+    private void OnTriggerStay(Collider Satellite)
+    {
+        IOrbit satellite = Satellite.GetComponent<IOrbit>();
+        if (satellite != null && !satellite.HasGravDir())
+        {
+            satellite.SetGravDir(_corePos, _gravModifier);
+        }
+         
+    }*/
 
     private void OnTriggerEnter(Collider Satellite)
     {
@@ -31,10 +41,10 @@ public class GravField : MonoBehaviour
         if (satellite != null)
         {
             satellite.SetGravDir(_corePos, _gravModifier);
-            Debug.Log($"Planet Says {Satellite.name} is here");
+            //Debug.Log($"Planet Says {Satellite.name} is here");
         }else
         {
-            Debug.Log($" ENTER: {Satellite.name} does not inherit from satellite class");
+            //Debug.Log($" ENTER: {Satellite.name} does not inherit from satellite class");
         }
     }
 
@@ -43,12 +53,12 @@ public class GravField : MonoBehaviour
         IOrbit satellite = Satellite.GetComponent<IOrbit>();
         if (satellite != null)
         {
-            satellite.ResetGravDir();
-            Debug.Log($"Planet Says {Satellite.name} is exiting");
+            satellite.ExitGrav();
+            //Debug.Log($"Planet Says {Satellite.name} is exiting");
         }
-        else
+        if (Satellite.gameObject.tag != "Player")
         {
-            Debug.Log($" EXIT: {Satellite.name} does not inherit from satellite class");
+            Destroy(Satellite.gameObject);
         }
         
     }

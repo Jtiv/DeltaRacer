@@ -62,7 +62,7 @@ public class ShipMoveComponent : MonoBehaviour
             rb.velocity *= .99f;
         }
 
-        if (mouseValues.magnitude >= .6 || mouseValues.magnitude <= -.6)
+        if (mouseValues.magnitude >= .6f || mouseValues.magnitude <= -.6f)
         {
             rb.AddTorque(transform.TransformDirection(Vector3.up) * mouseValues.x * (torqueMod / 2) * Time.fixedDeltaTime);
             rb.AddTorque(transform.TransformDirection(Vector3.right) * -mouseValues.y * (torqueMod / 2) * Time.fixedDeltaTime);

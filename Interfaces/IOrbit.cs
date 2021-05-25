@@ -2,7 +2,8 @@
 
 public interface IOrbit
 {
+    bool HasGravDir();
     void SetGravDir(Vector3 centerMass, float gravModifier);
-    void ResetGravDir();
+    void ExitGrav();
 }
 

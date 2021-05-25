@@ -41,8 +41,18 @@ public abstract class Satellite : MonoBehaviour, IOrbit
         _inGravField = true;
     }
 
-    public void ResetGravDir()
+    public void ExitGrav()
     {
         _inGravField = false;
+    }
+
+    public Vector3 GetPlanetCenterMass()
+    {
+        return _planetCenterMass;
+    }
+
+    public bool HasGravDir()
+    {
+        return _inGravField;
     }
 }

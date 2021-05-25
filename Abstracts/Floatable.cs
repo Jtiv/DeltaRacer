@@ -8,17 +8,18 @@ public abstract class Floatable : MonoBehaviour, IOrbit
     private float planetGravResponseMod = 1f;
     [SerializeField]
     private float FloatingHeight = 3f;
+    [SerializeField]
+    private float degreesPerSecond = 15.0f;
+
     private bool _inGravField = false;
     private float _planetGravMod;
     private Vector3 _planetCenterMass;
 
     protected Rigidbody rb;
 
-
-    [SerializeField] private float degreesPerSecond = 15.0f;
-   
+    
     // Update is called once per frame
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (_inGravField == true)
         { 
@@ -29,7 +30,7 @@ public abstract class Floatable : MonoBehaviour, IOrbit
             rb.transform.rotation = Quaternion.RotateTowards(rb.transform.rotation, Quaternion.Euler(reAngle), singleStep);
 
             RaycastHit hitinfo;
-            if (Physics.Raycast(rb.position, subjGravityDirection, out hitinfo, 20f, 1 << 8))
+            if (Physics.Raycast(rb.position, subjGravityDirection, out hitinfo, 120f, 1 << 8))
             {
                 rb.transform.Rotate(new Vector3(0f, Time.deltaTime * degreesPerSecond, 0f), Space.Self);
 
@@ -40,7 +41,7 @@ public abstract class Floatable : MonoBehaviour, IOrbit
 
                 else
                 {
-                    rb.AddForce(-subjGravityDirection.normalized * (_planetGravMod/2) * Time.fixedDeltaTime);
+                    rb.AddForce(-subjGravityDirection.normalized * (_planetGravMod/1) * Time.fixedDeltaTime);
                 }
             }
         }
@@ -53,8 +54,13 @@ public abstract class Floatable : MonoBehaviour, IOrbit
         _inGravField = true;
     }
 
-    public void ResetGravDir()
+    public void ExitGrav()
     {
         _inGravField = false;
+    }
+
+    public bool HasGravDir()
+    {
+        return _inGravField;
     }
 }
