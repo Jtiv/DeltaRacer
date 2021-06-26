@@ -5,7 +5,7 @@ using UnityEngine;
 public class Obstacle : Floatable
 {
     [SerializeField]
-    GameObject spawnable;
+    private GameObject spawnable;
 
     void OnEnable()
     {
@@ -19,12 +19,11 @@ public class Obstacle : Floatable
             int rand = Random.Range(2,4);
             for (int i = 0; i < rand; i++)
             {
-                Instantiate(spawnable, this.transform.position, new Quaternion(rand,rand,rand,rand));
-                
+                Instantiate(spawnable, transform.position, new Quaternion(rand,rand,rand,rand));
             }
             
             //{call collection event}
-            Destroy(this.gameObject);
+            ObstaclePool.Instance.ReturnToPool(this);
             
         }
         else

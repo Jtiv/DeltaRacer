@@ -15,6 +15,7 @@ public class PlayerRacer : Satellite
     //Input Fields >> change to inputcomponent ? <<
     private float axisH, axisV;
     private Vector2 lookInput, screenCenter, mouseValue;
+    private bool Boost;
 
     //Animation components
     private Animator anim;
@@ -33,8 +34,8 @@ public class PlayerRacer : Satellite
     [HideInInspector]
     public Vector3 OutGravDir;
 
-    public DisplayBarValue speedbar;
-    public DisplayBarValue fuelbar;
+    public DisplayBarValue speedbar, fuelbar, airbar, boostbar, healthbar;
+ 
 
     // Start is called before the first frame update. Awake is called even before that (O_o)
     //Override awake, called into Satellite awake first
@@ -69,6 +70,7 @@ public class PlayerRacer : Satellite
 
         mouseValue = Vector2.ClampMagnitude(mouseValue, 1f);
 
+        Boost = Input.GetButton("Jump");
         axisH = Input.GetAxis("Horizontal");
         axisV = Input.GetAxis("Vertical");
         //animation stuff
@@ -80,9 +82,11 @@ public class PlayerRacer : Satellite
         SpeedWarpCamera();
 
         //UI Updates and Such
-        Debug.Log(vel);
-        speedbar.SetValue(vel / 10f);
+        //Debug.Log(vel);
+        speedbar.SetValue(vel / 50f);
         fuelbar.SetValue(Fuel / 1000f);
+        airbar.SetValue(AirCap / 500f);
+        healthbar.SetValue(Health / 100f);
     }
     
     // FixedUpdate is scaled for physics -- fires more consistantly per interval 
@@ -98,7 +102,15 @@ public class PlayerRacer : Satellite
             if (Fuel > 0)
             {
                 shipMoveComponent.HoverMovement(axisH, axisV);
-                Fuel -= (vel * Time.fixedDeltaTime);
+
+                if (Boost)
+                {
+                    shipMoveComponent.ZoomBoost();
+                    Fuel -= 25f;
+                }
+
+                //Fuel -= (vel * Time.fixedDeltaTime);
+
             } 
            
         }

@@ -24,12 +24,12 @@ public class ShipMoveComponent : MonoBehaviour
 
     public void HoverMovement(float AxisH, float AxisV)
     {
-
+        
         foreach (MagLev Mag in Mags)
         {
             Mag.EmitForce();
         }
-
+        
         if (AxisH != 0 || AxisV != 0)
         {
             //add force according to input and propulsion originating from the propulsion object
@@ -68,7 +68,10 @@ public class ShipMoveComponent : MonoBehaviour
             rb.AddTorque(transform.TransformDirection(Vector3.right) * -mouseValues.y * (torqueMod / 2) * Time.fixedDeltaTime);
         }
        
+    }
 
-
+    public void ZoomBoost()
+    {
+        rb.AddForce(transform.forward * 2f, ForceMode.Impulse);
     }
 }

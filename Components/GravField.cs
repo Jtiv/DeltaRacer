@@ -5,34 +5,24 @@ using UnityEngine;
 public class GravField : MonoBehaviour
 {
     //properties of planet
+    //scale gravity field mesh to match planet mesh with 60 extra units of scale
 
     [SerializeField]
     private float _gravModifier;
 
-    [SerializeField]
-    private Rigidbody _rigidbody;
-
     private Vector3 _corePos;
-    private Collider _collider;
-
-    private void Awake()
+  
+    public void SetCenterOfMass(Rigidbody planetRB)
     {
-        _corePos = _rigidbody.position;
-
+        _corePos = planetRB.position;
         //Make custom gravity force, but for now using gravity. Just want absolute value so (grav)*-1
         //_gravModifier = 90f;
     }
 
-    /*
-    private void OnTriggerStay(Collider Satellite)
+    public Vector3 CenterofMass()
     {
-        IOrbit satellite = Satellite.GetComponent<IOrbit>();
-        if (satellite != null && !satellite.HasGravDir())
-        {
-            satellite.SetGravDir(_corePos, _gravModifier);
-        }
-         
-    }*/
+        return _corePos;
+    }
 
     private void OnTriggerEnter(Collider Satellite)
     {
