@@ -15,6 +15,8 @@ public class Planet : MonoBehaviour
     [SerializeField]
     private GameObject GFprefab;
 
+    public GravField gravfield;
+
     //Awake or OnEnable? OnEnable would refresh the planet every time the player gets far enough away...
     private void Awake()
     {
@@ -32,9 +34,12 @@ public class Planet : MonoBehaviour
 
         Vertices = new Vector3[mesh.vertices.Length];
 
+        //cache the random vector3 here so that it isnt re-generated for every vertex
+        Vector3 RandOffset = RandomVector.RandomVector3(30);
+
         for (int i = 0; i < mesh.vertices.Length; i++)
         {
-            float adjustment = NoiseController.SampleAtPosition(mesh.vertices[i]);
+            float adjustment = NoiseController.SampleAtRandPosition(mesh.vertices[i], RandOffset);
 
             Vertices[i] = mesh.vertices[i] * (.7f + adjustment);
         }
@@ -60,8 +65,9 @@ public class Planet : MonoBehaviour
         RB.useGravity = false;
         RB.isKinematic = true;
         
-        GravField gravfield = gravityFieldInstance.GetComponent<GravField>();
-        gravfield.SetCenterOfMass(RB);
+        gravfield = gravityFieldInstance.GetComponent<GravField>();
+        //grav should be set here to be nice and self contained but this avoids OnEnable -- hacky.
+        //gravfield.SetCenterOfMass(this.transform);
 
     }
     
@@ -73,3 +79,4 @@ public class Planet : MonoBehaviour
         return point;
     }
 }
+  

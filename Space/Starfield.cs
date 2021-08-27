@@ -12,10 +12,15 @@ public class Starfield : MonoBehaviour
     private int NumOfStars = 5000;
     public bool Ticked;
 
+    private void Start()
+    {
+        particleSystem = gameObject.GetComponent<ParticleSystem>();
+    }
+
     // Update is called once per frame
     void LateUpdate()
     {
-        particleSystem = gameObject.GetComponent<ParticleSystem>();
+        
         particleSystem.SetParticles(particles, NumOfStars);
         NumOfStars = particleSystem.particleCount;
         if (Ticked == false)

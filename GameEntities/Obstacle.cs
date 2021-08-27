@@ -26,13 +26,27 @@ public class Obstacle : Floatable
             ObstaclePool.Instance.ReturnToPool(this);
             
         }
-        else
-        {
-            Debug.Log("collision was not player");
-        }
         
+        //else { debug.log("collision was not a player (planet most likely)"); }
+
+    }
+    
+    //does this ever actually set _ingravField to false? if so is it reliable and can we use it for despawning?
+    void LateUpdate()
+    {
+        if (_inGravField == false)
+        {
+            CheckDespawnSelf();
+        }
     }
 
-    
+    public IEnumerator CheckDespawnSelf()
+    {
+        yield return new WaitForSeconds(1);
+        if (_inGravField == false)
+        {
+            ObstaclePool.Instance.ReturnToPool(this);
+        }
+    }
 
 }

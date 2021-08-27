@@ -12,9 +12,9 @@ public class GravField : MonoBehaviour
 
     private Vector3 _corePos;
   
-    public void SetCenterOfMass(Rigidbody planetRB)
+    public void SetCenterOfMass(Transform planetTransform)
     {
-        _corePos = planetRB.position;
+        _corePos = planetTransform.position;
         //Make custom gravity force, but for now using gravity. Just want absolute value so (grav)*-1
         //_gravModifier = 90f;
     }

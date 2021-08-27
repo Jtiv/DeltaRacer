@@ -59,7 +59,7 @@ public class PlayerRacer : Satellite
         //game conditions
         if (Health <= 0 || AirCap <= 0 || Fuel <= 0)
         {
-            Die();
+            StartCoroutine(Die());
         }
 
         lookInput.x = Input.mousePosition.x;
@@ -109,7 +109,7 @@ public class PlayerRacer : Satellite
                     Fuel -= 25f;
                 }
 
-                //Fuel -= (vel * Time.fixedDeltaTime);
+                Fuel += (vel * Time.fixedDeltaTime);
 
             } 
            
@@ -118,7 +118,7 @@ public class PlayerRacer : Satellite
         {
             shipMoveComponent.StarshipMovement(axisH, axisV, mouseValue);
             OutGravDir = new Vector3(0,0,0);
-            AirCap -= 1f;
+            AirCap -= .1f;
         }
         
         
@@ -137,12 +137,13 @@ public class PlayerRacer : Satellite
           
     }
 
-    public void Die()
+    public IEnumerator Die()
     {
-        OnPlayerDeath?.Invoke();
-        //Instantiate(ExplosionMaker.Explosion()); -- static explosion maker to make making explosions ~~simple~~
+        
         gameObject.GetComponent<MeshRenderer>().enabled = false;
-         
+        //Instantiate(ExplosionMaker.Explosion()); -- static explosion maker to make making explosions ~~simple~~
         //gameManager.reloadscene as triggered by on death event
+        yield return new WaitForSeconds(3);
+        OnPlayerDeath?.Invoke();
     }
 }

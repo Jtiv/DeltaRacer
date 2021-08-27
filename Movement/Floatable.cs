@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Floatable : MonoBehaviour, IOrbit
 {
@@ -11,7 +9,7 @@ public abstract class Floatable : MonoBehaviour, IOrbit
     [SerializeField]
     private float degreesPerSecond = 15.0f;
 
-    private bool _inGravField = false;
+    protected bool _inGravField = false;
     private float _planetGravMod;
     private Vector3 _planetCenterMass;
 

@@ -8,7 +8,7 @@ public class NoiseController
     public float strength = 1f;
     public float roughness = 1f;
 
-    Noise noise = new Noise();
+    private Noise noise = new Noise();
 
     public float SampleAtPosition(Vector3 position)
     {
@@ -23,7 +23,7 @@ public class NoiseController
     {
         
 
-        float value = (noise.Evaluate(position * roughness + offset) + 1) / 2f;
+        float value = (noise.Evaluate((position * roughness) + offset) + 1) / 2f;
 
         //do processing
 

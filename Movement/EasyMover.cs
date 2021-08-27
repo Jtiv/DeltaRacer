@@ -22,8 +22,6 @@ public class EasyMover : MonoBehaviour
     {
         if (Target != null)
         {
-
-
             Vector3 Direction = Target.position - gameObject.transform.position;
             Vector3 NewFwd = Vector3.RotateTowards(transform.forward, Direction, Tspeed * Time.deltaTime, 0.0f);
             var read = Quaternion.LookRotation(NewFwd);

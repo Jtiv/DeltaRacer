@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class GenericPool<Type> : MonoBehaviour where Type : Component
@@ -29,8 +28,7 @@ public abstract class GenericPool<Type> : MonoBehaviour where Type : Component
         ObjectPool.Enqueue(returnObject);
     }
 
-    //get object from queue
-
+    //get object from pool queue
     public Type Get()
     {
         if (ObjectPool.Count == 0)
@@ -39,14 +37,15 @@ public abstract class GenericPool<Type> : MonoBehaviour where Type : Component
         }
         return ObjectPool.Dequeue();
     }
-
+    //instantiate object into pool
     protected void SpawnToPool(int count)
     {
-        var spawnObject = GameObject.Instantiate(spawnPrefab);
-        spawnObject.gameObject.SetActive(false);
-        ObjectPool.Enqueue(spawnObject);
+        for (int i = 0; i < count; i++)
+        {
+            var spawnObject = GameObject.Instantiate(spawnPrefab);
+            spawnObject.gameObject.SetActive(false);
+            ObjectPool.Enqueue(spawnObject);
+        }
+        
     }
-  
-
-
 }
